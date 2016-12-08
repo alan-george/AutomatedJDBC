@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ab302f3-5d23-4017-a9aa-30ecb85d417b" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/in/kritter/TableEdit.java" afterPath="$PROJECT_DIR$/src/main/java/in/kritter/TableEdit.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
