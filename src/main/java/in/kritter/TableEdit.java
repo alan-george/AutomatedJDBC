@@ -15,16 +15,19 @@ public class TableEdit {
     Connection con=null;
     BufferedReader bufferedReader=null;
     int counter=0;
-    String dataTypeArray[][];
+    String dataTypeArray[][]=new String[10][2];
+    String globalTableName="";
 
     public void checkTable(String url,String username,String password){
         int exitCode=0,choice=0;
         boolean isTableStructureKnown=false;
+        String tableName="";
 
        bufferedReader=new BufferedReader(new InputStreamReader(System.in));
         do{
             System.out.println("1.SHOW TABLE STRUCTURE");
             System.out.println("2.SHOW TABLE DATA");
+            System.out.println("3.EXIT");
             try{
                 choice=Integer.parseInt(bufferedReader.readLine());
             }
@@ -35,14 +38,14 @@ public class TableEdit {
                 case 1:
                     System.out.println("ENTER THE TABLE NAME");
                     try{
-                        String tableName=bufferedReader.readLine();
+                        tableName=bufferedReader.readLine();
+                        globalTableName=tableName;
                         con=DriverManager.getConnection(url,username,password);
                         String query="describe ";
                         query=query + tableName;
                         statement=con.createStatement();
                         resultSet=statement.executeQuery(query);
                         while(resultSet.next()){
-                            counter++;
                             String field=resultSet.getString("Field");
                             String type=resultSet.getString("Type");
                             String nul=resultSet.getString("Null");
@@ -50,7 +53,31 @@ public class TableEdit {
                             String Default=resultSet.getString("Default");
                             String extra=resultSet.getString("Extra");
                             System.out.println(field +" "+ type +" "+ nul +" "+ key +" "+ Default +" "+extra );
-                            //dataTypeArray[][]
+
+                            dataTypeArray[counter][0]=field;
+
+                            if(type.startsWith("int")){
+                                dataTypeArray[counter][1]="1";
+                            }
+                            else if(type.startsWith("float")){
+                                dataTypeArray[counter][1]="2";
+                            }
+                            else if(type.startsWith("double")){
+                                dataTypeArray[counter][1]="3";
+                            }
+                            else if(type.startsWith("varchar")){
+                                dataTypeArray[counter][1]="4";
+                            }
+                            else if(type.startsWith("char")){
+                                dataTypeArray[counter][1]="5";
+                            }
+                            else if(type.startsWith("date")){
+                                dataTypeArray[counter][1]="6";
+                            }
+                            counter++;
+                        }
+                        for(int count=0;count<3;count++){
+                            System.out.println(dataTypeArray[count][0] + ":" + dataTypeArray[count][1]);
                         }
                         con.close();
                     }
@@ -58,19 +85,30 @@ public class TableEdit {
                         e.printStackTrace();
                     }
                     isTableStructureKnown=true;
+
                     break;
                 case 2:
-                    if(isTableStructureKnown==true){
-                        System.out.println("ENTER THE TABLE NAME");
+                    System.out.println("ENTER THE TABLE NAME");
+                    try{
+                        tableName=bufferedReader.readLine();
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    if(isTableStructureKnown==true && globalTableName.equals(tableName)==true){
+                        counter=0;
                         try{
-                            String tableName=bufferedReader.readLine();
+                            //String tableName=bufferedReader.readLine();
                             con=DriverManager.getConnection(url,username,password);
                             String query="select * from ";
                             query=query + tableName;
                             statement=con.createStatement();
                             resultSet=statement.executeQuery(query);
                             while(resultSet.next()){
+                                if(dataTypeArray[counter][])
+                                //int id= resultSet.getInt();
 
+                                counter ++;
                             }
                         }
                         catch(Exception e){
@@ -78,6 +116,8 @@ public class TableEdit {
                         }
                     }
                     break;
+                case 3:
+                    exitCode=1;
             }
         }while(exitCode==0);
 
