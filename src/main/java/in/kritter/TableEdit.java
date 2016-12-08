@@ -105,7 +105,7 @@ public class TableEdit {
                             statement=con.createStatement();
                             resultSet=statement.executeQuery(query);
                             while(resultSet.next()){
-                                if(dataTypeArray[counter][])
+                               // if(dataTypeArray[counter][])
                                 //int id= resultSet.getInt();
 
                                 counter ++;
