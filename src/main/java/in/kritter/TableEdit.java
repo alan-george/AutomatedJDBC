@@ -10,6 +10,12 @@ import java.sql.*;
  *
  */
 public class TableEdit {
+    int dataTypeInt=0;
+    String dataTypeString="";
+    char dataTypeChar=' ';
+    float dataTypeFLoat=0;
+    double dataTypeDouble=0;
+    Date dataTypeDate=null;
     ResultSet resultSet=null;
     Statement statement=null;
     Connection con=null;
@@ -22,7 +28,7 @@ public class TableEdit {
         int exitCode=0,choice=0;
         boolean isTableStructureKnown=false;
         String tableName="";
-
+        //String dataFromTAble[]= new String[50];
        bufferedReader=new BufferedReader(new InputStreamReader(System.in));
         do{
             System.out.println("1.SHOW TABLE STRUCTURE");
@@ -76,6 +82,7 @@ public class TableEdit {
                             }
                             counter++;
                         }
+                        System.out.println("\n");
                         for(int count=0;count<3;count++){
                             System.out.println(dataTypeArray[count][0] + ":" + dataTypeArray[count][1]);
                         }
@@ -97,6 +104,9 @@ public class TableEdit {
                     }
                     if(isTableStructureKnown==true && globalTableName.equals(tableName)==true){
                         counter=0;
+                        for(int count=0;count<3;count++){
+                            System.out.println(dataTypeArray[count][0] + ":" + dataTypeArray[count][1]);
+                        }
                         try{
                             //String tableName=bufferedReader.readLine();
                             con=DriverManager.getConnection(url,username,password);
@@ -104,10 +114,27 @@ public class TableEdit {
                             query=query + tableName;
                             statement=con.createStatement();
                             resultSet=statement.executeQuery(query);
+                            counter=0;
                             while(resultSet.next()){
-                               // if(dataTypeArray[counter][])
-                                //int id= resultSet.getInt();
-
+                                if(dataTypeArray[counter][1].equals("1")){
+                                    dataTypeInt=resultSet.getInt(dataTypeArray[counter][0]);
+                                }
+                                else if(dataTypeArray[counter][1].equals("2")){
+                                    dataTypeFLoat=resultSet.getFloat(dataTypeArray[counter][0]);
+                                }
+                                else if(dataTypeArray[counter][1].equals("3")){
+                                    dataTypeDouble=resultSet.getDouble(dataTypeArray[counter][0]);
+                                }
+                                else if(dataTypeArray[counter][1].equals("4")){
+                                    dataTypeString=resultSet.getString(dataTypeArray[counter][0]);
+                                }
+                                //else if(dataTypeArray[counter][1].equals("5")){
+                                    //dataTypeChar=resultSet.getString(dataTypeArray[counter][0]);
+                                //}
+                                else if(dataTypeArray[counter][1].equals("6")){
+                                    dataTypeDate=resultSet.getDate(dataTypeArray[counter][0]);
+                                }
+                                System.out.println("\n"+dataTypeInt+" "+dataTypeFLoat+" "+dataTypeDouble+" "+dataTypeString+" "+dataTypeChar+" "+dataTypeDate);
                                 counter ++;
                             }
                         }

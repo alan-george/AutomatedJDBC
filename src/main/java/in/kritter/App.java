@@ -59,6 +59,7 @@ public class App {
                                 query=query + dbName;
                                 statement = con.createStatement();
                                 statement.executeUpdate(query);
+                                con.close();
                             }
                             catch(Exception e){
                                 e.printStackTrace();
