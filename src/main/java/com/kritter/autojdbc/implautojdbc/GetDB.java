@@ -1,4 +1,4 @@
-package in.kritter;
+package com.kritter.autojdbc.implautojdbc;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.*;

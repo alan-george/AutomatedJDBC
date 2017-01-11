@@ -1,4 +1,4 @@
-package in.kritter;
+package com.kritter.autojdbc.implautojdbc;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,6 +23,7 @@ public class TableEdit {
     int counter=0;
     String dataTypeArray[][]=new String[10][2];
     String globalTableName="";
+    int dataSetCounter=0;
 
     public void checkTable(String url,String username,String password){
         int exitCode=0,choice=0;
@@ -42,6 +43,15 @@ public class TableEdit {
             }
             switch(choice){
                 case 1:
+                    if(dataSetCounter>0){
+                        for(int count=0;count<dataSetCounter;count++){
+                            for(int columns=0;columns<2;columns++){
+                                dataTypeArray[count][columns]="";
+                            }
+                        }
+                    }
+                    counter=0;
+                    dataSetCounter=0;
                     System.out.println("ENTER THE TABLE NAME");
                     try{
                         tableName=bufferedReader.readLine();
@@ -51,6 +61,7 @@ public class TableEdit {
                         query=query + tableName;
                         statement=con.createStatement();
                         resultSet=statement.executeQuery(query);
+
                         while(resultSet.next()){
                             String field=resultSet.getString("Field");
                             String type=resultSet.getString("Type");
@@ -81,9 +92,9 @@ public class TableEdit {
                                 dataTypeArray[counter][1]="6";
                             }
                             counter++;
+                            dataSetCounter++;
                         }
-                        System.out.println("\n");
-                        for(int count=0;count<3;count++){
+                        for(int count=0;count<dataSetCounter;count++){
                             System.out.println(dataTypeArray[count][0] + ":" + dataTypeArray[count][1]);
                         }
                         con.close();
@@ -115,26 +126,29 @@ public class TableEdit {
                             statement=con.createStatement();
                             resultSet=statement.executeQuery(query);
                             counter=0;
+
                             while(resultSet.next()){
-                                if(dataTypeArray[counter][1].equals("1")){
-                                    dataTypeInt=resultSet.getInt(dataTypeArray[counter][0]);
+                                for(int temp=0;temp<dataSetCounter;temp++){
+                                    if(dataTypeArray[temp][1].equals("1")){
+                                        dataTypeInt=resultSet.getInt(dataTypeArray[temp][0]);
+                                    }
+                                    else if(dataTypeArray[temp][1].equals("2")){
+                                        dataTypeFLoat=resultSet.getFloat(dataTypeArray[temp][0]);
+                                    }
+                                    else if(dataTypeArray[temp][1].equals("3")){
+                                        dataTypeDouble=resultSet.getDouble(dataTypeArray[temp][0]);
+                                    }
+                                    else if(dataTypeArray[temp][1].equals("4")){
+                                        dataTypeString=resultSet.getString(dataTypeArray[temp][0]);
+                                    }
+                                    //else if(dataTypeArray[temp][1].equals("5")){
+                                    //dataTypeChar=resultSet.getString(dataTypeArray[temp][0]);
+                                    //}
+                                    else if(dataTypeArray[temp][1].equals("6")){
+                                        dataTypeDate=resultSet.getDate(dataTypeArray[temp][0]);
+                                    }
+                                    System.out.println("\n"+dataTypeInt+" "+dataTypeFLoat+" "+dataTypeDouble+" "+dataTypeString+" "+dataTypeChar+" "+dataTypeDate);
                                 }
-                                else if(dataTypeArray[counter][1].equals("2")){
-                                    dataTypeFLoat=resultSet.getFloat(dataTypeArray[counter][0]);
-                                }
-                                else if(dataTypeArray[counter][1].equals("3")){
-                                    dataTypeDouble=resultSet.getDouble(dataTypeArray[counter][0]);
-                                }
-                                else if(dataTypeArray[counter][1].equals("4")){
-                                    dataTypeString=resultSet.getString(dataTypeArray[counter][0]);
-                                }
-                                //else if(dataTypeArray[counter][1].equals("5")){
-                                    //dataTypeChar=resultSet.getString(dataTypeArray[counter][0]);
-                                //}
-                                else if(dataTypeArray[counter][1].equals("6")){
-                                    dataTypeDate=resultSet.getDate(dataTypeArray[counter][0]);
-                                }
-                                System.out.println("\n"+dataTypeInt+" "+dataTypeFLoat+" "+dataTypeDouble+" "+dataTypeString+" "+dataTypeChar+" "+dataTypeDate);
                                 counter ++;
                             }
                         }

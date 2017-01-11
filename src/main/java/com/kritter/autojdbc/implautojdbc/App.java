@@ -1,9 +1,11 @@
-package in.kritter;
+package com.kritter.autojdbc.implautojdbc;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.sql.*;
 /**
  * Created by alan on 8/12/16.
+ * username = root
+ * password = kritter123
  */
 public class App {
     public static void main(String[] args){
@@ -30,14 +32,14 @@ public class App {
 
         do{
             System.out.println("\n\nWELCOME TO THE JDBC TRIAL");
-            System.out.println("PLEASE ENTER YOUR CREDENTIALS");
+            System.out.println("PLEASE ENTER YOUR CREDENTIALS\n");
 
             String username=get.getData("username");
             String password=get.getData("password");
             boolean connectionSuccess=checkConnection.checkConnection(url,username,password);
             if(connectionSuccess==true){
                 do{
-                    System.out.println("\n\n1.CHOSE DATABASE");
+                    System.out.println("\n1.CHOSE DATABASE");
                     System.out.println("2.SHOW TABLES");
                     System.out.println("3.SHOW TABLE STRUCTURE");
                     System.out.println("3.INSERT INTO TABLE");

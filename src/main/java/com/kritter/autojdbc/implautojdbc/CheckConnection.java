@@ -1,4 +1,4 @@
-package in.kritter;
+package com.kritter.autojdbc.implautojdbc;
 import java.sql.*;
 
 /**
